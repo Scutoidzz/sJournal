@@ -35,18 +35,20 @@
 #
 # =============================================================================
 
-from PyQt6.QtWidgets import QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QTextEdit
+from PyQt6.QtWidgets import QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QTextEdit, QMessageBox
 import sys
 import os
 import json
-import sqlite3
+from .database import init_db, add_entry
 from .functions import blackbox
 from datetime import datetime
 from PyQt6.QtCore import Qt
+
 #TODO: Add apple health style slider for emotions
 class newEntryWindow(QWidget):
     def __init__(self):
         super().__init__()
+        init_db()  # Ensure database exists
         self.init_ui()
     
     def init_ui(self):
@@ -67,14 +69,25 @@ class newEntryWindow(QWidget):
         mood = QPushButton("Mood")
         layout.addWidget(mood)
         save = QPushButton("Save")
+        save.clicked.connect(self.save_entry)
         layout.addWidget(save)
-        #TODO: Implement the save logic
+        
         cancel = QPushButton("Cancel")
         cancel.clicked.connect(self.close)
         layout.addWidget(cancel)
     
-
-    
+    def save_entry(self):
+        content = self.entryinput.toPlainText()
+        if not content.strip():
+            QMessageBox.warning(self, "Empty Entry", "Please write something before saving.")
+            return
+            
+        try:
+            add_entry(content)
+            self.close()
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"Could not save entry: {e}")
+            print(f"Error saving entry: {e}")
 
 def new_entry():
     """
@@ -86,31 +99,4 @@ def new_entry():
     window = newEntryWindow()
     window.show()
     return window
-
-# TODO: Implement save functionality
-# def save_entry(title_widget, content_widget, window):
-#     """
-#     Saves the journal entry to a JSON file.
-#     
-#     Consider:
-#     - Validating that title and content aren't empty
-#     - Adding timestamp automatically
-#     - Storing entries in a list in entries.json
-#     - Showing success/error message with QMessageBox
-#     """
-#     entry_data = {
-#         "title": title_widget.text(),
-#         "content": content_widget.toPlainText(),
-#         "timestamp": datetime.now().isoformat(),
-#     }
-#     
-#     # Load existing entries, add new one, save back
-#     # entries = []
-#     # if os.path.exists("entries.json"):
-#     #     with open("entries.json", "r") as f:
-#     #         entries = json.load(f)
-#     # entries.append(entry_data)
-#     # with open("entries.json", "w") as f:
-#     #     json.dump(entries, f, indent=4)
-#     pass
 
