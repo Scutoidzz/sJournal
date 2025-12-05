@@ -13,7 +13,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        # Use specific OS labels for better artifact clarity
         os: [ubuntu-latest, windows-latest, macos-latest]
+        
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -21,22 +23,46 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10' # Ensure compatibility with PyQt6/PyInstaller versions
+          python-version: '3.10' # A robust version for PyQt6/PyInstaller compatibility
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          # Ensure setuptools is installed for some PyQt6/PyInstaller builds
+          pip install setuptools
           # Install PyQt6 and PyInstaller
           pip install PyQt6 pyinstaller
           # Install any other dependencies listed in your requirements.txt
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        # Use shell: bash for all OS to ensure the 'if [ -f ... ]' syntax works on Windows runners
+        shell: bash
 
       - name: Build executable
-        run: pyinstaller --onefile --windowed main.py # Replace your_app_main_script.py
-        # Use '--windowed' (or '--noconsole') to prevent a console window for GUI apps
+        # The script name (main.py) must exist in the repository root or be correctly path'd
+        run: pyinstaller --onefile --windowed main.py
+        
+      - name: Rename executable (Linux/macOS)
+        # PyInstaller uses different extensions/naming conventions on different platforms.
+        # This step renames the generic 'main' executable on Linux/macOS to include the app name.
+        # We also need to move the created file from the 'dist' folder.
+        if: runner.os != 'Windows'
+        run: |
+          APP_NAME="sJournal" # **FIXME: Replace with your actual application name**
+          mv dist/main dist/${APP_NAME}
+          
+      - name: Rename executable (Windows)
+        # On Windows, PyInstaller already produces 'main.exe'. We just rename it.
+        if: runner.os == 'Windows'
+        run: |
+          APP_NAME="sJournal" # **FIXME: Replace with your actual application name**
+          Rename-Item -Path "dist/main.exe" -NewName "${APP_NAME}.exe"
+        shell: pwsh
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.os }}-pyqt6-executable
+          # Use a more descriptive artifact name that includes the application name
+          name: Your_App_Name-${{ matrix.os }} # **FIXME: Replace Your_App_Name**
           path: dist/* # The 'dist' folder contains the executable/app bundle
+          # If you want to bundle the entire 'dist' folder (recommended for macOS .app bundles):
+          # path: dist
