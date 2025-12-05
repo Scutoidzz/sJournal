@@ -47,7 +47,7 @@ jobs:
         
       - name: Rename Executable (Windows)
         if: runner.os == 'Windows'
-        run: Rename-Item -Path "dist/main.exe" -NewName "${{ env.APP_NAME }}.exe"
+        run: Rename-Item -Path "dist/main.exe" -NewName "sJournal.exe"
         shell: pwsh
         
       - name: 📦 Zip macOS Executable
