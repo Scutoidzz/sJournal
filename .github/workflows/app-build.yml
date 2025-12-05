@@ -30,7 +30,7 @@ jobs:
           pip install setuptools
           pip install PyQt6 pyinstaller
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        # Removed 'shell: bash' from this step as it's the default for non-Windows runners and unnecessary on Windows with the 'run' block as-is
+        shell: bash  # Required for Windows compatibility (uses bash syntax for the 'if' statement)
 
       - name: Set Application Name Environment Variable
         # The correct way to set an environment variable in a 'run' step to be available later in the job
@@ -71,8 +71,6 @@ jobs:
           path: |
             dist/*
             ${{ env.APP_NAME }}_macOS.zip
-
----
 
   release:
     if: github.event_name == 'release' && github.event.action == 'created'
