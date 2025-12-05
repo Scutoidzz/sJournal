@@ -1,0 +1,16 @@
+QPushButton#colorButton {
+    border-radius: 20px;
+    border: 2px solid transparent;
+    min-width: 40px;
+    max-width: 40px;
+    min-height: 40px;
+    max-height: 40px;
+}
+
+QPushButton#colorButton:hover {
+    border: 2px solid #888;
+}
+
+QPushButton#colorButton:checked {
+    border: 3px solid black;
+}
