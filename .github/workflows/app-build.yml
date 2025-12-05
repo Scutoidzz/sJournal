@@ -103,28 +103,30 @@ jobs:
           
       - name: Upload Linux Asset
         uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
-          # Path correction: artifacts are downloaded to 'artifacts/artifact_name/files...'
           asset_path: artifacts/${{ env.APP_NAME }}-ubuntu-latest/${{ env.APP_NAME }}
           asset_name: ${{ env.APP_NAME }}_Linux
           asset_content_type: application/octet-stream
 
       - name: Upload Windows Asset
         uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
-          # Path correction: artifacts are downloaded to 'artifacts/artifact_name/files...'
           asset_path: artifacts/${{ env.APP_NAME }}-windows-latest/${{ env.APP_NAME }}.exe
           asset_name: ${{ env.APP_NAME }}_Windows.exe
           asset_content_type: application/vnd.microsoft.portable-executable
 
       - name: Upload macOS Asset (Zipped)
         uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
-          # Path correction: artifacts are downloaded to 'artifacts/artifact_name/files...'
-          # The zip file was uploaded from the workspace root, so it appears at the root of the macos-latest artifact folder.
           asset_path: artifacts/${{ env.APP_NAME }}-macos-latest/${{ env.APP_NAME }}_macOS.zip
           asset_name: ${{ env.APP_NAME }}_macOS.zip
           asset_content_type: application/zip
