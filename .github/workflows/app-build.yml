@@ -30,10 +30,12 @@ jobs:
           pip install setuptools
           pip install PyQt6 pyinstaller
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        shell: bash
+        # Removed 'shell: bash' from this step as it's the default for non-Windows runners and unnecessary on Windows with the 'run' block as-is
 
       - name: Set Application Name Environment Variable
+        # The correct way to set an environment variable in a 'run' step to be available later in the job
         run: echo "APP_NAME=sJournal" >> $GITHUB_ENV 
+        shell: bash # Explicitly use bash for this cross-platform command
 
       - name: Build executable
         run: pyinstaller --onefile --windowed main.py
@@ -70,7 +72,7 @@ jobs:
             dist/*
             ${{ env.APP_NAME }}_macOS.zip
 
-  ---
+---
 
   release:
     if: github.event_name == 'release' && github.event.action == 'created'
@@ -79,7 +81,9 @@ jobs:
 
     steps:
       - name: Set Application Name Environment Variable
+        # Use a single step to set the variable for this job
         run: echo "APP_NAME=sJournal" >> $GITHUB_ENV
+        shell: bash
 
       - name: Download all artifacts
         uses: actions/download-artifact@v4
@@ -91,6 +95,9 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
+            // Import 'core' for outputting variables (needed since we're not using actions/github-script@v6)
+            const { core } = require('@actions/core');
+
             const release = await github.rest.repos.getReleaseByTag({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -103,6 +110,7 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
+          # Path correction: artifacts are downloaded to 'artifacts/artifact_name/files...'
           asset_path: artifacts/${{ env.APP_NAME }}-ubuntu-latest/${{ env.APP_NAME }}
           asset_name: ${{ env.APP_NAME }}_Linux
           asset_content_type: application/octet-stream
@@ -111,6 +119,7 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
+          # Path correction: artifacts are downloaded to 'artifacts/artifact_name/files...'
           asset_path: artifacts/${{ env.APP_NAME }}-windows-latest/${{ env.APP_NAME }}.exe
           asset_name: ${{ env.APP_NAME }}_Windows.exe
           asset_content_type: application/vnd.microsoft.portable-executable
@@ -119,7 +128,8 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
-          # The zip file is accessed via the artifact root path
+          # Path correction: artifacts are downloaded to 'artifacts/artifact_name/files...'
+          # The zip file was uploaded from the workspace root, so it appears at the root of the macos-latest artifact folder.
           asset_path: artifacts/${{ env.APP_NAME }}-macos-latest/${{ env.APP_NAME }}_macOS.zip
           asset_name: ${{ env.APP_NAME }}_macOS.zip
           asset_content_type: application/zip
