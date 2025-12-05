@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  # Triggers the release job when a new release tag is created
   release:
     types:
       - created
@@ -13,7 +14,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        # Use specific OS labels for better artifact clarity
         os: [ubuntu-latest, windows-latest, macos-latest]
         
     steps:
@@ -23,45 +23,102 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10' # A robust version for PyQt6/PyInstaller compatibility
+          python-version: '3.10'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          # Ensure setuptools is installed for some PyQt6/PyInstaller builds
           pip install setuptools
-          # Install PyQt6 and PyInstaller
           pip install PyQt6 pyinstaller
-          # Install any other dependencies listed in your requirements.txt
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        # Use shell: bash for all OS to ensure the 'if [ -f ... ]' syntax works on Windows runners
         shell: bash
 
+      - name: Set Application Name Environment Variable
+        # APP_NAME is now defined once here for use in all subsequent steps
+        run: echo "APP_NAME=sJournal" >> $GITHUB_ENV 
+
       - name: Build executable
-        # The script name (main.py) must exist in the repository root or be correctly path'd
+        # The script name (main.py) must exist in the repository root
         run: pyinstaller --onefile --windowed main.py
         
-      - name: Rename executable (Linux/macOS)
-        # PyInstaller uses different extensions/naming conventions on different platforms.
-        # This step renames the generic 'main' executable on Linux/macOS to include the app name.
-        # We also need to move the created file from the 'dist' folder.
+      - name: Rename Executable (Linux/macOS)
         if: runner.os != 'Windows'
-        run: |
-          APP_NAME="sJournal" # **FIXME: Replace with your actual application name**
-          mv dist/main dist/${APP_NAME}
-          
-      - name: Rename executable (Windows)
-        # On Windows, PyInstaller already produces 'main.exe'. We just rename it.
+        run: mv dist/main dist/${{ env.APP_NAME }}
+        
+      - name: Rename Executable (Windows)
         if: runner.os == 'Windows'
-        run: |
-          Rename-Item -Path "dist/main.exe" -NewName "sJournal.exe"
+        run: Rename-Item -Path "dist/main.exe" -NewName "${{ env.APP_NAME }}.exe"
         shell: pwsh
-
+        
+      - name: 📦 Zip macOS Executable
+        if: runner.os == 'macOS'
+        # Creates a zip file of the executable for easier artifact handling
+        run: zip -j ${{ env.APP_NAME }}_macOS.zip dist/${{ env.APP_NAME }}
+        
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          # Use a more descriptive artifact name that includes the application name
-          name: Your_App_Name-${{ matrix.os }} # **FIXME: Replace Your_App_Name**
-          path: dist/* # The 'dist' folder contains the executable/app bundle
-          # If you want to bundle the entire 'dist' folder (recommended for macOS .app bundles):
-          # path: dist
+          # Artifact name: sJournal-ubuntu-latest, etc.
+          name: ${{ env.APP_NAME }}-${{ matrix.os }} 
+          # Uploads the executable for Linux/Windows, and the zip file for macOS
+          path: |
+            dist/*
+            ${{ env.APP_NAME }}_macOS.zip
+
+  ---
+
+  release:
+    # Runs only if a release was created and all build jobs succeeded
+    if: github.event_name == 'release' && github.event.action == 'created'
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Set Application Name Environment Variable
+        run: echo "APP_NAME=sJournal" >> $GITHUB_ENV
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Get Release Information
+        id: get_release
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const release = await github.rest.repos.getReleaseByTag({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag: context.ref.replace('refs/tags/', '')
+            });
+            core.setOutput('upload_url', release.data.upload_url);
+            core.setOutput('release_id', release.data.id);
+          
+      - name: Upload Linux Asset
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          # Path: artifacts/sJournal-ubuntu-latest/sJournal
+          asset_path: artifacts/${{ env.APP_NAME }}-ubuntu-latest/${{ env.APP_NAME }}
+          asset_name: ${{ env.APP_NAME }}_Linux
+          asset_content_type: application/octet-stream
+
+      - name: Upload Windows Asset
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          # Path: artifacts/sJournal-windows-latest/sJournal.exe
+          asset_path: artifacts/${{ env.APP_NAME }}-windows-latest/${{ env.APP_NAME }}.exe
+          asset_name: ${{ env.APP_NAME }}_Windows.exe
+          asset_content_type: application/vnd.microsoft.portable-executable
+
+      - name: Upload macOS Asset (Zipped)
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          # The zip file is placed in the root of the artifact download directory
+          # Path: artifacts/sJournal-macos-latest/sJournal_macOS.zip
+          asset_path: artifacts/${{ env.APP_NAME }}-macos-latest/${{ env.APP_NAME }}_macOS.zip
+          asset_name: ${{ env.APP_NAME }}_macOS.zip
+          asset_content_type: application/zip
