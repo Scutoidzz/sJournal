@@ -54,8 +54,7 @@ jobs:
         # On Windows, PyInstaller already produces 'main.exe'. We just rename it.
         if: runner.os == 'Windows'
         run: |
-          APP_NAME="sJournal" # **FIXME: Replace with your actual application name**
-          Rename-Item -Path "dist/main.exe" -NewName "${APP_NAME}.exe"
+          Rename-Item -Path "dist/main.exe" -NewName "sJournal.exe"
         shell: pwsh
 
       - name: Upload artifact
