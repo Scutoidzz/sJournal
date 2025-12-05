@@ -1,7 +1,9 @@
 import sys
+
 import os
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QPushButton
 from .newentry import new_entry
+from settings.settings import settings
 
 def homescreen(app, apikey):
     window = QWidget()
@@ -18,12 +20,21 @@ def homescreen(app, apikey):
     window.setWindowTitle("Home")
     layout.addStretch()
     
+
+
     newentry_btn = QPushButton("+")
     def open_new_entry():
         # Store reference to prevent garbage collection
         window.new_entry_window = new_entry()
 
     newentry_btn.clicked.connect(open_new_entry)
+
+    # Settings Button 
+    settings_btn = QPushButton("Settings")
+    def settings_window_opener():
+        # Store reference to prevent garbage collection
+        window.settings_window = settings()
+    settings_btn.clicked.connect(settings_window_opener)
     
     layout.addWidget(newentry_btn)
     window.show()

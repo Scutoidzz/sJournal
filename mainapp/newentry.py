@@ -64,6 +64,8 @@ class newEntryWindow(QWidget):
         self.entryinput = QTextEdit()
         layout.addWidget(self.entryinput)
         layout.addStretch()
+        mood = QPushButton("Mood")
+        layout.addWidget(mood)
         save = QPushButton("Save")
         layout.addWidget(save)
         #TODO: Implement the save logic

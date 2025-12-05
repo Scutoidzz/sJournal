@@ -1,12 +1,12 @@
 import requests
 import os
+from pydantic import BaseModel, Field
 
 
-def get_gemini():
+def get_gemini(prompt):
     apikey = os.getenv("GEMINI_API_KEY")
     gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?api_key={apikey}"
     #TODO: Implement calling with the google gemini API
-
 
     class moods(BaseModel):
         mood: str = Field(description="The mood of the day")
