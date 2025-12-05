@@ -32,7 +32,7 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Build executable
-        run: pyinstaller --onefile --windowed your_app_main_script.py # Replace your_app_main_script.py
+        run: pyinstaller --onefile --windowed main.py # Replace your_app_main_script.py
         # Use '--windowed' (or '--noconsole') to prevent a console window for GUI apps
 
       - name: Upload artifact
