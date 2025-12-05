@@ -93,9 +93,6 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            // Import 'core' for outputting variables (needed since we're not using actions/github-script@v6)
-            const { core } = require('@actions/core');
-
             const release = await github.rest.repos.getReleaseByTag({
               owner: context.repo.owner,
               repo: context.repo.repo,
