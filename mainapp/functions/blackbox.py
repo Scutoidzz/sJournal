@@ -6,11 +6,11 @@ def get_gemini(prompt):
     apikey = os.getenv("GEMINI_API_KEY")
     gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?api_key={apikey}"
 
-    # FIX: Pydantic models should ideally be defined outside the function scope 
-    # to be reusable and cleaner.
     class moods(BaseModel):
         mood: str = Field(description="The mood of the day")
         one_to_ten: int = Field(description="the mood score from 1-10")
+    # IMPROVEMENT: Define Pydantic models outside of functions to avoid redefining them on every call.
+    # This improves performance and code readability.
         
     request_body = {
         "contents": [
@@ -44,9 +44,14 @@ def get_gemini(prompt):
     
     # FIX: The function constructs the request body but never actually sends the request!
     # You need to add:
-    response = requests.post(gemini_url, json=request_body)
     # response = requests.post(gemini_url, json=request_body)
-    parse_response(response)
+    # response = requests.post(gemini_url, json=request_body)
+    # TODO: Uncomment the request line and handle potential network errors (try-except block).
+    response = requests.post(gemini_url, json=request_body)
+    if response.status_code == 200:
+        parse_response(response)
+    else:
+        print(f"Error: {response.status_code} - {response.text}")
 
 def parse_response(gemini_response):
     print("parse_response started")

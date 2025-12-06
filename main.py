@@ -5,18 +5,32 @@ import sys
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtGui import QPalette
 from PyQt6.QtCore import QObject, pyqtSignal
-#TODO: Change the QSS theming. This current theme looks vibe coded and is annoying
+# TODO: Change the QSS theming. This current theme looks vibe coded and is annoying
+# IMPROVEMENT: Move styling constants or configuration to a separate file (e.g., constants.py or theme.py)
+# to make it easier to manage and update the look and feel of the application.
 dotenv.load_dotenv()
+#TODO: Prevent app loading  if the directory is not sJournal
+if os.path.basename(os.getcwd()) != "sJournal":
+    print("Please run this app from the sJournal directory.")
+    sys.exit(1)
+else:
+    continue
 
 class AppController(QObject):
     """Controls screen transitions throughout the app lifecycle."""
     
+    # IMPROVEMENT: Consider using a State Machine pattern if the navigation logic becomes more complex.
+    # Currently, it's manageable, but as more screens are added, a dedicated State Machine library
+    # or a more formal state management approach might be beneficial.
+
     def __init__(self, app):
         super().__init__()
         self.app = app
         self.current_window = None
         
         # Ensure config.json exists
+        # IMPROVEMENT: Create a Configuration Manager class to handle reading/writing config.json.
+        # This would centralize the logic, handle default values, and ensure thread safety if needed.
         if not os.path.exists("config.json"):
             with open("config.json", "w") as config_file:
                 json.dump({"completed": False}, config_file)
@@ -51,6 +65,9 @@ class AppController(QObject):
     
     def show_welcome(self):
         """Show the welcome screen."""
+        # NOTE: Importing inside methods avoids circular imports, but it can hide dependencies.
+        # If possible, refactor to allow top-level imports (e.g., by using dependency injection
+        # or restructuring the package).
         from intro import welcome
         self.close_current_window()
         # After welcome, go to API setter as part of setup flow

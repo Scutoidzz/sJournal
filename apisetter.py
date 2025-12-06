@@ -3,6 +3,10 @@ import os
 from PyQt6.QtWidgets import QVBoxLayout, QWidget, QLabel, QLineEdit, QPushButton, QApplication
 
 # The setup DOES call this. Do NOT delete!
+# IMPROVEMENT: Rename 'main' to something more descriptive like 'create_api_setter_window' or 'ApiSetterWindow'.
+# Using 'main' can be confusing as it implies an entry point script.
+# IMPROVEMENT: Refactor this into a class (e.g., class ApiSetterWindow(QWidget)) to better manage state
+# and event handling, similar to how you might structure other complex windows.
 def main(app, on_complete=None):
     print("API Key App")
     from mainapp.functions.utils import load_stylesheet
@@ -34,6 +38,8 @@ def main(app, on_complete=None):
         # Save to .env file for persistence
         # FIX: This overwrites the entire .env file! If you have other variables, they will be lost.
         # Consider reading existing content first or using append mode (if appropriate, but be careful of duplicates).
+        # IMPROVEMENT: Use a library like `python-dotenv`'s `set_key` function (if available/installed)
+        # or manually parse and update the specific key to preserve other environment variables.
         with open(".env", "w") as env_file:
             env_file.write(f"GEMINI_API_KEY={api_key}\n")
         

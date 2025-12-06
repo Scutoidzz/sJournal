@@ -1,5 +1,6 @@
 import os
 import json
+import sys
 
 def load_stylesheet(app_or_widget, override_color=None):
     """
@@ -12,6 +13,8 @@ def load_stylesheet(app_or_widget, override_color=None):
     # config.json is in the root (../../config.json)
     root_dir = os.path.dirname(os.path.dirname(script_dir))
     config_path = os.path.join(root_dir, "config.json")
+    # IMPROVEMENT: Use a centralized Config Manager or constants file for paths.
+    # Repeatedly calculating paths based on `__file__` is fragile.
     
     # Stylesheet path (src/introstyling.qss)
     qss_path = os.path.join(root_dir, "src", "introstyling.qss")
@@ -30,6 +33,7 @@ def load_stylesheet(app_or_widget, override_color=None):
                     accent_color = loaded_color
         except Exception as e:
             print(f"Error reading config: {e}")
+            # IMPROVEMENT: Consider using the logging module instead of print statements for better debugging and control.
             
     # Load and process stylesheet
     if os.path.exists(qss_path):

@@ -9,6 +9,8 @@ from .database import fetch_entries, init_db
 from .functions.utils import load_stylesheet
 
 def homescreen(app, apikey):
+    # IMPROVEMENT: Refactor into a class `HomeScreen(QWidget)` to better manage state and methods.
+    # Passing `app` and `apikey` around is fine, but a class structure is more idiomatic for main windows.
     init_db()  # Ensure DB exists
     window = QWidget()
     layout = QVBoxLayout()
@@ -34,6 +36,8 @@ def homescreen(app, apikey):
     
     # Fetch and display entries
     try:
+        # IMPROVEMENT: Fetching entries synchronously on the main thread can freeze the UI if the DB is large.
+        # Consider using a background thread (QThread) or async/await if possible for DB operations.
         entries = fetch_entries()
         if not entries:
             empty_label = QLabel("No entries yet. Click + to add one!")
@@ -90,6 +94,8 @@ def homescreen(app, apikey):
     settings_btn = QPushButton("Settings")
     def settings_window_opener():
         # Store reference to prevent garbage collection
+        # NOTE: Attaching attributes to `window` dynamically is a bit hacky.
+        # A class-based approach would allow you to store these as instance attributes cleanly.
         window.settings_window = settings()
     settings_btn.clicked.connect(settings_window_opener)
     

@@ -5,9 +5,12 @@ from PyQt6.QtGui import QIcon, QPalette, QColor
 from PyQt6.QtCore import Qt, QSize, QRect
 import json
 
+
 from mainapp.functions.utils import load_stylesheet
 
 def choices(app=None, on_complete=None):
+    # IMPROVEMENT: Refactor into a class `PersonalizationWindow(QWidget)`.
+    # This will make it easier to handle state (like `selected_color`) without relying on closures.
     print("Personalization settings loaded")
     
     window = QWidget()
@@ -34,6 +37,8 @@ def choices(app=None, on_complete=None):
         ("Yellow", "#C0C040"), ("Cyan", "#40C0C0"), ("Magenta", "#C040C0"),
         ("Orange", "#C08040"), ("Purple", "#804080")
     ]
+    # IMPROVEMENT: Move these color definitions to a constants file or config file.
+    # This allows for easier theming updates without modifying the logic code.
 
     # Add the colors label to the layout
     layout.addWidget(colors)
@@ -70,6 +75,8 @@ def choices(app=None, on_complete=None):
         # Write completion status to config.json
         script_dir = os.path.dirname(os.path.abspath(__file__))
         config_path = os.path.join(script_dir, "..", "config.json")
+        # IMPROVEMENT: Use a centralized Config Manager to handle path resolution and file writing.
+        # Duplicating logic to find 'config.json' makes the code brittle if the file structure changes.
         config_data = {
             "completed": True,
             "accent_color": selected_color,

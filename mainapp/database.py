@@ -1,8 +1,12 @@
 import sqlite3
 import os
 from datetime import datetime
-
+import json
+import hashlib
+import sys
 DB_NAME = "journal.db"
+# IMPROVEMENT: Use a configuration file or environment variable for the database path.
+# Hardcoding relative paths can lead to issues if the script is run from a different directory.
 DB_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), DB_NAME)
 
 def get_db_connection():
@@ -28,6 +32,8 @@ def add_entry(content, mood=None):
     conn = get_db_connection()
     cursor = conn.cursor()
     timestamp = datetime.now().isoformat()
+    # IMPROVEMENT: Consider storing timestamps in UTC to avoid timezone issues later.
+    # You can convert to local time when displaying the entry.
     cursor.execute('INSERT INTO journal_entries (content, timestamp, mood) VALUES (?, ?, ?)',
                    (content, timestamp, mood))
     conn.commit()
@@ -37,6 +43,8 @@ def fetch_entries():
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM journal_entries ORDER BY timestamp DESC')
+    # IMPROVEMENT: Implement pagination or limit the number of entries returned.
+    # Fetching all entries will become slow as the database grows.
     entries = cursor.fetchall()
     conn.close()
     return entries
