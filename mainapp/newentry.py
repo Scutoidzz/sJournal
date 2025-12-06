@@ -11,7 +11,6 @@ from .database import init_db, add_entry
 from .functions import blackbox
 from datetime import datetime
 from PyQt6.QtCore import Qt
-from .functions.blackbox import get_gemini 
 from .mood import moodpicker
 #TODO: pack up the entry into json and then pass it to blackbox, then to the sqlite
 #TODO: Add apple health style slider for emotions
@@ -35,7 +34,7 @@ class newEntryWindow(QWidget):
         layout.addWidget(self.entryinput)
         layout.addStretch()
         mood = QPushButton("Mood")
-        mood.clicked.connect(moodpicker)
+        mood.clicked.connect(self.open_mood_picker)
         layout.addWidget(mood)
         save = QPushButton("Save")
         save.clicked.connect(self.save_entry)
@@ -44,6 +43,10 @@ class newEntryWindow(QWidget):
         cancel = QPushButton("Cancel")
         cancel.clicked.connect(self.close)
         layout.addWidget(cancel)
+    
+    def open_mood_picker(self):
+        self.mood_window = moodpicker()
+        self.mood_window.show()
     
     def save_entry(self):
         content = self.entryinput.toPlainText()

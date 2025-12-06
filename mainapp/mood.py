@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QLabel, QSlider
 from PyQt6.QtGui import QIcon, QPalette, QColor
 from PyQt6.QtCore import Qt, QSize, QRect
-from functions.blackbox import get_gemini
+from .functions.blackbox import get_gemini
 import pygame as pyg
 import sys
 import csv
@@ -9,7 +9,6 @@ import os
 
 
 def moodpicker():
-    #TODO: Slider button in PyQt6/PyGame if I can...
     print("Mood Picker loading.")
     window = QWidget()
     layout = QVBoxLayout()
@@ -20,10 +19,13 @@ def moodpicker():
     layout.addWidget(labelformoods)
     moodslider = QSlider()
     layout.addWidget(moodslider)
-    moodslider.tickPosition(Qt.TickPosition.NoTicks)
+    moodslider.setTickPosition(QSlider.TickPosition.TicksBelow)
     moodslider.setRange(0, 5)
     moodslider.setValue(0)
-    moodslider.valueChanged.connect(lambda value: print(f"Mood: {value}"))
+    moodslider.setTickInterval(1)
     
+    moodslider.valueChanged.connect(lambda value: print(f"Mood: {value}"))
     window.show()
+    #TODO: Find out if the window is being garbage collected
+    return window
     

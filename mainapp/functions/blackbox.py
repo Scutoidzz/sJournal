@@ -50,7 +50,7 @@ def get_gemini(prompt):
     # TODO: Uncomment the request line and handle potential network errors (try-except block).
     response = requests.post(gemini_url, json=request_body)
     if response.status_code == 200:
-        parse_response(response)
+        return parse_response(response)
     else:
         print(f"Error: {response.status_code} - {response.text}")
 
