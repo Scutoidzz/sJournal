@@ -1,38 +1,45 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QPushButton
+from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QLabel
 import sys
 import os
-from .personalization import choices
 
-def welcomescreen(app):
+
+def welcomescreen(app, on_complete=None):
+    #TODO: Find out why the API window works but doesn't show in code
     # Get the directory where this script is located
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    # Go up one level to sJournal, then into src/introstyling.qss
-    qss_path = os.path.join(script_dir, "..", "src", "introstyling.qss")
-    with open(qss_path, "r") as style_file:
-        app.setStyleSheet(style_file.read())
+    
+    from mainapp.functions.utils import load_stylesheet
+    load_stylesheet(app)
+    
     window = QWidget()
     layout = QVBoxLayout()
     window.setFixedSize(683, 384)
     window.setLayout(layout)
     window.setWindowTitle("Welcome to sJournal")
-    layout.addStretch()
-
-    personalization_window = None
     
-    def open_personalization():
-        nonlocal personalization_window
-        personalization_window = choices()
+    # Welcome message
+    welcome_label = QLabel("Welcome to sJournal!")
+    welcome_label.setStyleSheet("font-size: 24px; font-weight: bold;")
+    layout.addWidget(welcome_label)
+    
+    description = QLabel("Underrated journaling app.")
+    layout.addWidget(description)
+    
+    layout.addStretch()
+    
+    def go_to_personalization():
+        window.close()
+        if on_complete:
+            on_complete()
     
     next_btn = QPushButton("Next")
-    next_btn.clicked.connect(open_personalization)
+    next_btn.clicked.connect(go_to_personalization)
     
-
     layout.addWidget(next_btn)
     window.show()
     return window  # Return to prevent garbage collection
 
+
 if __name__ == "__main__":
-    welcomescreen()
-    
-
-
+    app = QApplication(sys.argv)
+    window = welcomescreen(app)
+    sys.exit(app.exec())

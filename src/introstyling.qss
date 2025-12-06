@@ -1,19 +1,108 @@
+/* Global Styles */
+QWidget {
+    background-color: #121212;
+    color: #E0E0E0;
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    font-size: 14px;
+}
+
+/* Buttons */
 QPushButton {
-    background-color: #4a90d9;
-    color: white;
-    border: 2px solid transparent;
-    border-radius: 15px;
+    background-color: @ACCENT_COLOR;
+    color: #FFFFFF;
+    border: 1px solid transparent; /* Reserve space for border */
+    border-radius: 8px;
     padding: 10px 20px;
-    min-height: 30px;
+    font-weight: 600;
     font-size: 14px;
 }
 
 QPushButton:hover {
-    background-color: #1d5896;
-    border: 2px solid #2a6fb9;
+    border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 QPushButton:pressed {
-    background-color: #108f10;
-    border: 2px solid #000000;
+    background-color: #2C2C2C;
+    color: @ACCENT_COLOR;
+    border: 1px solid @ACCENT_COLOR;
+}
+
+/* Color Selection Buttons */
+QPushButton#colorButton {
+    border-radius: 20px;
+    border: 2px solid transparent;
+    margin: 0;
+}
+
+QPushButton#colorButton:hover {
+    border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+QPushButton#colorButton:checked {
+    border: 3px solid #FFFFFF;
+}
+
+/* Entry Cards */
+QFrame#EntryCard {
+    background-color: #1E1E1E;
+    border: 1px solid #333333;
+    border-radius: 12px;
+}
+
+QFrame#EntryCard:hover {
+    background-color: #252525;
+    border: 1px solid @ACCENT_COLOR;
+}
+
+/* Typography */
+QLabel#DateLabel {
+    color: #AAAAAA;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+QLabel#MoodLabel {
+    color: @ACCENT_COLOR;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+QLabel#ContentLabel {
+    color: #E0E0E0;
+    font-size: 15px;
+}
+
+/* Scroll Area */
+QScrollArea {
+    border: none;
+    background-color: transparent;
+}
+
+/* Scroll Bar */
+QScrollBar:vertical {
+    border: none;
+    background: #121212;
+    width: 10px;
+    margin: 0px;
+}
+
+QScrollBar::handle:vertical {
+    background: #333333;
+    min-height: 20px;
+    border-radius: 5px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background: #444444;
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    height: 0px;
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background: none;
 }

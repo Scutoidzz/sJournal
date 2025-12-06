@@ -13,10 +13,12 @@ def settings():
 
     toplayout = QHBoxLayout()
     aibutton = QPushButton("AI")
+    # FIX: This button is not connected to any function.
     toplayout.addWidget(aibutton)
     
     bottomlayout = QHBoxLayout()
     about = QPushButton("About")
+    # FIX: This button is not connected to any function.
     bottomlayout.addWidget(about)
 
     align = QVBoxLayout()

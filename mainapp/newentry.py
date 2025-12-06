@@ -1,4 +1,6 @@
 
+# FIX: This large comment block seems to be leftover instructions. 
+# It should be removed or moved to a separate documentation file to clean up the code.
 # 2. PATH HANDLING - Add sys.path configuration like in personalization.py:
 #    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 #    This allows proper imports from other modules (like homescreen.py)
@@ -44,9 +46,12 @@ from .functions import blackbox
 from datetime import datetime
 from PyQt6.QtCore import Qt
 
+#TODO: pack up the entry into json and then pass it to blackbox, then to the sqlite
 #TODO: Add apple health style slider for emotions
+from .functions.utils import load_stylesheet
+
 class newEntryWindow(QWidget):
-    def __init__(self):
+    def __init__(self): 
         super().__init__()
         init_db()  # Ensure database exists
         self.init_ui()
@@ -54,11 +59,7 @@ class newEntryWindow(QWidget):
     def init_ui(self):
         layout = QVBoxLayout()
         # Load the stylesheet from QT
-        #TODO: Find out how to dynamically update the QSS with an accent color
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        qss_path = os.path.join(script_dir, "..", "src", "introstyling.qss")
-        with open(qss_path, "r") as style_file:
-            self.setStyleSheet(style_file.read())
+        load_stylesheet(self)
         self.setLayout(layout)
         self.setFixedSize(683, 384)
         self.setWindowTitle("New Entry")
@@ -67,6 +68,8 @@ class newEntryWindow(QWidget):
         layout.addWidget(self.entryinput)
         layout.addStretch()
         mood = QPushButton("Mood")
+        # FIX: This button is created but not connected to any function.
+        # It needs to open a mood picker or toggle a mood input.
         layout.addWidget(mood)
         save = QPushButton("Save")
         save.clicked.connect(self.save_entry)
@@ -83,6 +86,9 @@ class newEntryWindow(QWidget):
             return
             
         try:
+            # FIX: add_entry expects a 'mood' argument (default is None).
+            # You should capture the mood from the UI and pass it here.
+            # e.g., add_entry(content, current_mood)
             add_entry(content)
             self.close()
         except Exception as e:

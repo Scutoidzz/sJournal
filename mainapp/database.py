@@ -32,3 +32,11 @@ def add_entry(content, mood=None):
                    (content, timestamp, mood))
     conn.commit()
     conn.close()
+
+def fetch_entries():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM journal_entries ORDER BY timestamp DESC')
+    entries = cursor.fetchall()
+    conn.close()
+    return entries
