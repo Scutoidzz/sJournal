@@ -5,6 +5,7 @@ from functions.blackbox import get_gemini
 import pygame as pyg
 import sys
 import csv
+import superqt
 import os
 #TODO: Finish up stuff later
 

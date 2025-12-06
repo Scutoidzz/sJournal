@@ -21,7 +21,8 @@ def welcomescreen(app, on_complete=None):
     welcome_label.setStyleSheet("font-size: 24px; font-weight: bold;")
     layout.addWidget(welcome_label)
     
-    description = QLabel("Underrated journaling app.")
+    description = QLabel("super underrated journaling app.")
+    description.setStyleSheet("font-size: 8px; font-weight: italic;")
     layout.addWidget(description)
     
     layout.addStretch()
