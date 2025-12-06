@@ -1,7 +1,7 @@
 # sJournal
 ### A journaling app by scutoid
 
-### How to use
+### How to run
 1. Install the app from one of the executables - Support for Windows, Linux, and MacOS.
    ### or
 2. Run the app from source
