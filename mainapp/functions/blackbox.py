@@ -1,5 +1,8 @@
 import requests
 import os
+import sqlite3
+import json
+#TODO: Make this save directly to the database
 from pydantic import BaseModel, Field
 
 def get_gemini(prompt):
@@ -9,8 +12,6 @@ def get_gemini(prompt):
     class moods(BaseModel):
         mood: str = Field(description="The mood of the day")
         one_to_ten: int = Field(description="the mood score from 1-10")
-    # IMPROVEMENT: Define Pydantic models outside of functions to avoid redefining them on every call.
-    # This improves performance and code readability.
         
     request_body = {
         "contents": [
@@ -37,7 +38,7 @@ def get_gemini(prompt):
                         "description": "The mood score from 1-10"
                     }
                 },
-                "required": ["mood", "one_to_ten"]
+                "required": ["one_to_ten"]
             }
         }
     }
@@ -56,3 +57,20 @@ def get_gemini(prompt):
 def parse_response(gemini_response):
     print("parse_response started")
     print(f"Output = {gemini_response.json()}")
+    try:
+        # Extract the text content from the Gemini response
+        response_data = gemini_response.json()
+        if 'candidates' in response_data and response_data['candidates']:
+            text_content = response_data['candidates'][0]['content']['parts'][0]['text']
+            # Parse the JSON string contained in the text
+            parsed_content = json.loads(text_content)
+            rating = parsed_content.get("one_to_ten")
+            mood = parsed_content.get("mood")
+            print(f"rating = {rating}, mood = {mood}")
+            return {"rating": rating, "mood": mood}
+        else:
+            print("No candidates found in response")
+            return None
+    except (KeyError, json.JSONDecodeError) as e:
+        print(f"Error parsing response: {e}")
+        return None

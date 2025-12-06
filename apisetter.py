@@ -40,8 +40,20 @@ def main(app, on_complete=None):
         # Consider reading existing content first or using append mode (if appropriate, but be careful of duplicates).
         # IMPROVEMENT: Use a library like `python-dotenv`'s `set_key` function (if available/installed)
         # or manually parse and update the specific key to preserve other environment variables.
-        with open(".env", "w") as env_file:
-            env_file.write(f"GEMINI_API_KEY={api_key}\n")
+        env_path = ".env"
+        lines = []
+        if os.path.exists(env_path):
+            with open(env_path, "r") as env_file:
+                lines = env_file.readlines()
+        
+        # Remove existing GEMINI_API_KEY line if present
+        lines = [line for line in lines if not line.strip().startswith("GEMINI_API_KEY=")]
+        
+        # Append the new key
+        lines.append(f"GEMINI_API_KEY={api_key}\n")
+        
+        with open(env_path, "w") as env_file:
+            env_file.writelines(lines)
         
         print("API Key saved successfully!")
         

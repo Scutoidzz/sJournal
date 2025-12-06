@@ -4,15 +4,7 @@ import os
 
 
 def welcomescreen(app, on_complete=None):
-    # window = WelcomeWindow(QWidget)
-    # IMPROVEMENT: Refactor into a class `WelcomeWindow(QWidget)` for better organization and extensibility.
-    # Functional components are fine for simple things, but classes are standard in PyQt for windows.
-    #TODO: Find out why the API window works but doesn't show in code
-    # Get the directory where this script is located
-    
     from mainapp.functions.utils import load_stylesheet
-    # NOTE: Loading stylesheet on the 'app' object here might affect the global application style.
-    # If you want to style only this window, pass 'window' instead of 'app'.
     load_stylesheet(app)
     
     window = QWidget()

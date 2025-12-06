@@ -13,7 +13,7 @@ dotenv.load_dotenv()
 if os.path.basename(os.getcwd()) != "sJournal":
     print("Please run this app from the sJournal directory.")
     sys.exit(1)
-else:
+else:        
     class AppController(QObject):
         """Controls screen transitions throughout the app lifecycle."""
         

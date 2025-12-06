@@ -11,7 +11,7 @@ from .functions.utils import load_stylesheet
 def homescreen(app, apikey):
     # IMPROVEMENT: Refactor into a class `HomeScreen(QWidget)` to better manage state and methods.
     # Passing `app` and `apikey` around is fine, but a class structure is more idiomatic for main windows.
-    init_db()  # Ensure DB exists
+    init_db()
     window = QWidget()
     layout = QVBoxLayout()
     
@@ -40,7 +40,7 @@ def homescreen(app, apikey):
         # Consider using a background thread (QThread) or async/await if possible for DB operations.
         entries = fetch_entries()
         if not entries:
-            empty_label = QLabel("No entries yet. Click + to add one!")
+            empty_label = QLabel("A whole lot of nothing going on (click +)")
             empty_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
             content_layout.addWidget(empty_label)
         else:
@@ -107,7 +107,6 @@ def homescreen(app, apikey):
         # Refresh entries when new entry window closes? 
         # For now, user has to restart or we need a signal.
         # Ideally, we would connect a signal from new_entry_window to refresh this list.
-        # But let's keep it simple for now as per request.
         
     newentry_btn.clicked.connect(open_new_entry)
 
