@@ -24,10 +24,7 @@ def homescreen(app, apikey):
     window.setFixedSize(683, 384)
     window.setWindowTitle("Home")
     
-    # Scroll Area for Entries
-    scroll_area = QScrollArea()
-    scroll_area.setWidgetResizable(True)
-    scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+    
     
     content_widget = QWidget()
     content_layout = QVBoxLayout(content_widget)
