@@ -4,7 +4,7 @@ from datetime import datetime
 import json
 import hashlib
 import sys
-DB_NAME = "journal.db"
+DB_NAME = "sjournal.db"
 # IMPROVEMENT: Use a configuration file or environment variable for the database path.
 # Hardcoding relative paths can lead to issues if the script is run from a different directory.
 DB_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), DB_NAME)

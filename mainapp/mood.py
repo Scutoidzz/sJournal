@@ -26,6 +26,5 @@ def moodpicker():
     
     moodslider.valueChanged.connect(lambda value: print(f"Mood: {value}"))
     window.show()
-    #TODO: Find out if the window is being garbage collected
     return window
     

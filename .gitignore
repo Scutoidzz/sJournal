@@ -1,6 +1,8 @@
 /.env
 /__pycache__
 /journal.db
+sjournal.db
+/sjournal.db
 /clear-cache.sh
 /*.pyc
 journal.db
