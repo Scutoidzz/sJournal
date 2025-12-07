@@ -12,14 +12,14 @@ def homescreen(app, apikey):
     class HomeScreen(QWidget):
         def __init__(self, app, apikey):
            super().__init__()
-            self.app = app
-            self.apikey = apikey
-            init_db()
-            self.layout = QVBoxLayout()
-            self.setLayout(self.layout)
+        self.app = app
+        self.apikey = apikey
+        init_db()
+        self.layout = QVBoxLayout()
+        self.setLayout(self.layout)
 
-            load_stylesheet(self.app)
-            print("Home screen loaded")
+        load_stylesheet(self.app)
+        print("Home screen loaded")
 
     window = HomeScreen(app, apikey)
     layout = window.layout
