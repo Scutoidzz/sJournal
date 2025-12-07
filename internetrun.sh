@@ -7,7 +7,7 @@ echo "Downloading sJournal"
 git clone https://github.com/scutoid/sJournal.git
 cd sJournal
 echo "Downloaded. Running app"
-ls
+
 echo "..."
-sleep 3
+sleep 1
 python main.py

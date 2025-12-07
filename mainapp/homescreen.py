@@ -1,7 +1,7 @@
 import sys
 import os
 from datetime import datetime
-from PyQt6.QtWidgets import  QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QAction, QFrame
+from PyQt6.QtWidgets import  QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QFrame
 from PyQt6.QtCore import Qt
 from .newentry import new_entry
 from settings.settings import settings

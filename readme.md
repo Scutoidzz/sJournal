@@ -9,6 +9,6 @@
    2. CD into the directory - ```cd sJournal```
    3. Install the requirements - ```pip install -r requirements.txt```
    4. Run the app - ```python main.py```
-   5. Or run this slick one liner - ```git clone https://github.com/scutoidzz/sJournal.git && cd sJournal && pip install -r requirements.txt --break-system-packages && python main.py```
+   5. Or run this slick one liner - ```curl -sSL https://raw.githubusercontent.com/Scutoidzz/sJournal/refs/heads/main/internetrun.sh | sh```
 
 
