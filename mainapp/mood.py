@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QLab
 from PyQt6.QtGui import QIcon, QPalette, QColor
 from PyQt6.QtCore import Qt, QSize, QRect
 from .functions.blackbox import get_gemini
-import pygame as pyg
+#REMEMBER: PyGame isn't needed in this case.
 import sys
 import csv
 import os
@@ -25,6 +25,8 @@ def moodpicker():
     moodslider.setTickInterval(1)
     
     moodslider.valueChanged.connect(lambda value: print(f"Mood: {value}"))
+    
     window.show()
+    #TODO: Find out if the window is being garbage collected
     return window
     
