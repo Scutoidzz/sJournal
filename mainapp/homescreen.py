@@ -9,7 +9,20 @@ from .database import fetch_entries, init_db
 from .functions.utils import load_stylesheet
 
 def homescreen(app, apikey):
-    # IMPROVEMENT: Refactor into a class `HomeScreen(QWidget)` to better manage state and methods.
+    class HomeScreen(QWidget):
+        def __init__(self, app, apikey):
+           super().__init__()
+            self.app = app
+            self.apikey = apikey
+            init_db()
+            self.layout = QVBoxLayout()
+            self.setLayout(self.layout)
+
+            load_stylesheet(self.app)
+            print("Home screen loaded")
+
+    window = HomeScreen(app, apikey)
+    layout = window.layout
     # Passing `app` and `apikey` around is fine, but a class structure is more idiomatic for main windows.
     init_db()
     window = QWidget()
