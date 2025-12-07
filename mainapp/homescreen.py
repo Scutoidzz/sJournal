@@ -81,9 +81,6 @@ def homescreen(app, apikey):
         content_layout.addWidget(error_label)
         
     content_layout.addStretch()
-    scroll_area.setWidget(content_widget)
-    layout.addWidget(scroll_area)
-    
     # Buttons Layout (Bottom)
     btn_layout = QHBoxLayout()
     
