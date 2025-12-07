@@ -28,7 +28,7 @@ def init_db():
     conn.commit()
     conn.close()
 
-def add_entry(content, mood=None):
+def add_entry(content, mood=None, rating=None):
     conn = get_db_connection()
     cursor = conn.cursor()
     timestamp = datetime.now().isoformat()

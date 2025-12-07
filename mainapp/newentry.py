@@ -1,14 +1,10 @@
-
-# =============================================================================
-# TODO: Remove this large commented-out block once the instructions are implemented or moved to documentation.
-# =============================================================================
-
 from PyQt6.QtWidgets import QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QTextEdit, QMessageBox
 import sys
 import os
 import json
 from .database import init_db, add_entry
 from .functions import blackbox
+from .functions.save_func import save_compiled_entry
 from datetime import datetime
 from PyQt6.QtCore import Qt
 from .mood import moodpicker
@@ -54,21 +50,18 @@ class newEntryWindow(QWidget):
             QMessageBox.warning(self, "Empty Entry", "Please write something before saving.")
             return
 
-        # Get AI analysis
-        # TODO: Run this in a separate thread to avoid freezing the UI
-        analysis = get_gemini(content)
-        mood = None
-        if analysis:
-            mood = analysis.get("mood")
-            one_to_ten = analysis.get("one_to_ten")
+        # Get any manually selected mood (if implemented)
+        manual_mood = getattr(self, 'selected_mood', None)
             
         try:
-            # FIX: add_entry expects a 'mood' argument (default is None).
-            # You should capture the mood from the UI and pass it here.
-            # e.g., add_entry(content, current_mood)
-            # TODO: Pass the actual selected mood instead of relying on the default None.
-            add_entry(content, mood, one_to_ten)
-            self.close()
+            # Use the new compilation logic to save everything as one entry
+            success = save_compiled_entry(content, manual_mood)
+            
+            if success:
+                self.close()
+            else:
+                QMessageBox.critical(self, "Error", "Could not save entry. Please try again.")
+                
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Could not save entry: {e}")
             print(f"Error saving entry: {e}")

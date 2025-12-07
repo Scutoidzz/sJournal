@@ -3,3 +3,5 @@
 /journal.db
 /clear-cache.sh
 /*.pyc
+journal.db
+/refresher.py
