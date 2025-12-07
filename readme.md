@@ -5,9 +5,11 @@
 
 
 ### How to run
-1. Install the app from one of the executables - Support for Windows, Linux, and MacOS.
+1. Download the app from one of the executables - Support for Windows, Linux, and MacOS.
+2. Move it into a folder named sJournal. - It won't run without it
+3. Run the downloaded file
    ### or
-2. Run the app from source
+4. Run the app from source
    1. Clone the app - ```git clone https://github.com/scutoidzz/sJournal.git```
    2. CD into the directory - ```cd sJournal```
    3. Install the requirements - ```pip install -r requirements.txt```
