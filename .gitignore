@@ -4,6 +4,11 @@
 sjournal.db
 /sjournal.db
 /clear-cache.sh
+clear-cache.sh
+/.gitignore
+.gitignore
 /*.pyc
 journal.db
 /refresher.py
+/venv
+/clear-cache.sh

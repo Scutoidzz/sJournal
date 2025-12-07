@@ -2,6 +2,7 @@ import json
 import os
 import dotenv
 import sys
+import time
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtGui import QPalette
 from PyQt6.QtCore import QObject, pyqtSignal
@@ -17,19 +18,16 @@ else:
     class AppController(QObject):
         """Controls screen transitions throughout the app lifecycle."""
         
-        # IMPROVEMENT: Consider using a State Machine pattern if the navigation logic becomes more complex.
-        # Currently, it's manageable, but as more screens are added, a dedicated State Machine library
-        # or a more formal state management approach might be beneficial.
+        
 
         def __init__(self, app):
             super().__init__()
             self.app = app
             self.current_window = None
             
-            # Ensure config.json exists
-            # IMPROVEMENT: Create a Configuration Manager class to handle reading/writing config.json.
-            # This would centralize the logic, handle default values, and ensure thread safety if needed.
             if not os.path.exists("config.json"):
+                print("Config file not found. Creating default config.")
+                time.sleep(2)
                 with open("config.json", "w") as config_file:
                     json.dump({"completed": False}, config_file)
             

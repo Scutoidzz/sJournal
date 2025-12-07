@@ -1,7 +1,6 @@
 import os
 import json
 import sys
-
 def load_stylesheet(app_or_widget, override_color=None):
     """
     Loads the stylesheet, replaces the @ACCENT_COLOR placeholder with the 
