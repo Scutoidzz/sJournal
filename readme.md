@@ -1,5 +1,7 @@
 # sJournal
+<img width="511" height="298" alt="sJournal_Glass" src="https://github.com/user-attachments/assets/080faad4-de8c-466c-8474-e95e45cd5d04" />
 ### A journaling app by scutoid
+
 
 ### How to run
 1. Install the app from one of the executables - Support for Windows, Linux, and MacOS.
