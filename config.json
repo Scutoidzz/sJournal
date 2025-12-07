@@ -1,5 +1,5 @@
 {
-    "completed": false,
-    "accent_color": "",
-    "accent_hex": ""
+    "completed": true,
+    "accent_color": "Red",
+    "accent_hex": "#C04040"
 }
