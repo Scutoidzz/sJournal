@@ -79,7 +79,7 @@ def homescreen(app, apikey):
         print(f"Error fetching entries: {e}")
         error_label = QLabel(f"Error loading entries: {e}")
         content_layout.addWidget(error_label)
-        
+    
     content_layout.addStretch()
     # Buttons Layout (Bottom)
     btn_layout = QHBoxLayout()
