@@ -1,17 +1,38 @@
-/.env
-/__pycache__
-/journal.db
-sjournal.db
-/sjournal.db
-/clear-cache.sh
-clear-cache.sh
-/.gitignore
-.gitignore
-/*.pyc
+#
+# Environment / tooling
+#
+.env
+.venv/
+venv/
+env/
+
+#
+# Python cache / build artefacts
+#
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+build/
+dist/
+*.egg-info/
+
+#
+# Local data
+#
 journal.db
-/refresher.py
-/venv
-/clear-cache.sh
-TODOS.md
-/TODOS.md
-config
+sjournal.db
+entry_backups/
+
+#
+# Local-only helper scripts
+#
+clear-cache.sh
+refresher.py
+
+#
+# OS noise
+#
+.DS_Store
+/config.json
