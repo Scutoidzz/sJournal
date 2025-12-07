@@ -9,6 +9,8 @@ import os
 
 
 def moodpicker():
+    # CRITICAL: This window is not being properly managed and could be garbage collected
+    # Consider making it a class that inherits from QWidget and properly manages its lifecycle
     print("Mood Picker loading.")
     window = QWidget()
     layout = QVBoxLayout()
@@ -27,6 +29,7 @@ def moodpicker():
     moodslider.valueChanged.connect(lambda value: print(f"Mood: {value}"))
     
     window.show()
-    #TODO: Find out if the window is being garbage collected
+    # CRITICAL: The window is not being properly parented and could be garbage collected
+    # Store a reference to this window in the parent or use Qt's memory management
     return window
     

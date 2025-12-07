@@ -23,6 +23,8 @@ else:
         def __init__(self, app):
             super().__init__()
             self.app = app
+            # CRITICAL: current_window is never properly cleaned up when switching screens
+            # This could lead to memory leaks
             self.current_window = None
             
             if not os.path.exists("config.json"):
@@ -56,8 +58,14 @@ else:
         def close_current_window(self):
             """Safely close the current window."""
             if self.current_window:
-                self.current_window.close()
-                self.current_window = None
+                try:
+                    self.current_window.close()
+                    # CRITICAL: Just setting to None might not be enough if the window has Qt children
+                    # Consider using deleteLater() and ensuring all signals are disconnected
+                    self.current_window = None
+                except Exception as e:
+                    # CRITICAL: No error handling if window close fails
+                    print(f"Error closing window: {e}")
         
         def show_welcome(self):
             """Show the welcome screen."""
@@ -108,5 +116,9 @@ else:
 
     if __name__ == "__main__":
         app = QApplication(sys.argv)
+        # CRITICAL: No global exception handling - uncaught exceptions will crash the app
+        # Consider implementing a global exception handler
         controller = AppController(app)
+        # CRITICAL: No cleanup of resources on application exit
+        # Consider using atexit or implementing proper cleanup
         sys.exit(app.exec())
