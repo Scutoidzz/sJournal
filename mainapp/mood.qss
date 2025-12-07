@@ -1,0 +1,9 @@
+QSlider {
+    #TODO: Make this use the accent color
+    background-color: #0000ff;
+    border: 8px solid #0000ff;
+    
+    
+
+
+}

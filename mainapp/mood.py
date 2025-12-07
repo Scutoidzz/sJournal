@@ -13,6 +13,8 @@ def moodpicker():
     # Consider making it a class that inherits from QWidget and properly manages its lifecycle
     print("Mood Picker loading.")
     window = QWidget()
+    window.setStyleSheet("mood.qss")
+#   window.setWindowIcon(QIcon("icon.png"))
     layout = QVBoxLayout()
     window.setLayout(layout)
     window.setFixedSize(683, 384)
@@ -32,4 +34,5 @@ def moodpicker():
     # CRITICAL: The window is not being properly parented and could be garbage collected
     # Store a reference to this window in the parent or use Qt's memory management
     return window
+
     

@@ -111,7 +111,7 @@ else:
             """Show the main homescreen."""
             from mainapp import homescreen
             self.close_current_window()
-            self.current_window = homescreen.homescreen(self.app, os.getenv("GEMINI_API_KEY"))
+            self.current_window = homescreen.homescreen(self.app)
 
 
     if __name__ == "__main__":

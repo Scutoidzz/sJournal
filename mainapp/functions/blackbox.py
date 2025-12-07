@@ -55,6 +55,7 @@ def get_gemini(prompt):
         print(f"Error: {response.status_code} - {response.text}")
 
 def parse_response(gemini_response):
+    errormessage = "Something went wrong."
     print("parse_response started")
     print(f"Output = {gemini_response.json()}")
     try:
@@ -70,7 +71,7 @@ def parse_response(gemini_response):
             return {"rating": rating, "mood": mood}
         else:
             print("No candidates found in response")
-            return None
+            return errormessage
     except (KeyError, json.JSONDecodeError) as e:
         print(f"Error parsing response: {e}")
         return None

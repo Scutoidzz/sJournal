@@ -8,36 +8,21 @@ from settings.settings import settings
 from .database import fetch_entries, init_db
 from .functions.utils import load_stylesheet
 
-def homescreen(app, apikey):
-    class HomeScreen(QWidget):
-        def __init__(self, app, apikey):
-           super().__init__()
-        self.app = app
-        self.apikey = apikey
-        init_db()
-        self.layout = QVBoxLayout()
-        self.setLayout(self.layout)
 
-        load_stylesheet(self.app)
-        print("Home screen loaded")
-
-    window = HomeScreen(app, apikey)
-    layout = window.layout
-    # Passing `app` and `apikey` around is fine, but a class structure is more idiomatic for main windows.
-    init_db()
+def homescreen(app):
     window = QWidget()
+    init_db()
+
     layout = QVBoxLayout()
-    
+    window.setLayout(layout)
+
     # Load stylesheet with dynamic accent color
     load_stylesheet(app)
 
     print("Home screen loaded")
-    
-    window.setLayout(layout)
+
     window.setFixedSize(683, 384)
     window.setWindowTitle("Home")
-    
-    
     
     content_widget = QWidget()
     content_layout = QVBoxLayout(content_widget)
@@ -124,4 +109,3 @@ def homescreen(app, apikey):
     layout.addLayout(btn_layout)
 
     window.show()
-    return window
