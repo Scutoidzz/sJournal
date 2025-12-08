@@ -1,5 +1,7 @@
 import sys
 import os
+import dotenv
+# Have an idea that involves dotenv.
 from PyQt6.QtWidgets import QVBoxLayout, QWidget, QLabel, QLineEdit, QPushButton, QApplication
 
 # The setup DOES call this. Do NOT delete!
@@ -19,11 +21,16 @@ def main(app, on_complete=None):
     if current_key:
         apibox.setText(current_key)
     apibox.setPlaceholderText("Enter your Gemini API key...")
-    apibox.setEchoMode(QLineEdit.EchoMode.Password)  # Hide the API key
+    apibox.setEchoMode(QLineEdit.EchoMode.Password) 
+    #TODO: Bold the "aistudio.gooogle.com"
+    getone = QLabel("Get a Gemini API Key at aistudio.google.com")
+    
     apibutton = QPushButton("Set Key")
     layout.addWidget(apitext)
     layout.addStretch()
     layout.addWidget(apibox)
+    layout.addStretch()
+    layout.addWidget(getone)
     layout.addWidget(apibutton)
 
     def set_key():

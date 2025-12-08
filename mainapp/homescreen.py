@@ -2,13 +2,15 @@ import sys
 import os
 from datetime import datetime
 from PyQt6.QtWidgets import  QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QFrame
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import QThread, Qt
 from .newentry import new_entry
 from settings.settings import settings
 from .database import fetch_entries, init_db
 from .functions.utils import load_stylesheet
 
-
+class DataThread(QThread):
+    def run(self):
+        self.entries = fetch_entries()
 def homescreen(app):
     window = QWidget()
     init_db()
@@ -18,6 +20,7 @@ def homescreen(app):
 
     # Load stylesheet with dynamic accent color
     load_stylesheet(app)
+    # response = requests.post(gemini_url, json=request_body)
 
     print("Home screen loaded")
 
@@ -32,7 +35,7 @@ def homescreen(app):
     # Fetch and display entries
     try:
         # IMPROVEMENT: Fetching entries synchronously on the main thread can freeze the UI if the DB is large.
-        # Consider using a background thread (QThread) or async/await if possible for DB operations.
+
         entries = fetch_entries()
         if not entries:
             empty_label = QLabel("A whole lot of nothing going on (click +)")
@@ -109,3 +112,5 @@ def homescreen(app):
     layout.addLayout(btn_layout)
 
     window.show()
+    # Return the window so callers (e.g., AppController) can manage lifecycle
+    return window

@@ -46,7 +46,6 @@ def get_gemini(prompt):
     # FIX: The function constructs the request body but never actually sends the request!
     # You need to add:
     # response = requests.post(gemini_url, json=request_body)
-    # response = requests.post(gemini_url, json=request_body)
     # TODO: Uncomment the request line and handle potential network errors (try-except block).
     response = requests.post(gemini_url, json=request_body)
     if response.status_code == 200:

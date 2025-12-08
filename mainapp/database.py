@@ -13,10 +13,13 @@ DB_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 def get_db_connection():
     # CRITICAL: No connection pooling or connection management
     # Consider using a connection pool or context managers for better resource management
-    conn = sqlite3.connect(DB_PATH)
-    # CRITICAL: No error handling for database connection failures
-    conn.row_factory = sqlite3.Row
-    return conn
+    try:
+            conn = sqlite3.connect(DB_PATH)
+            # CRITICAL: No error handlingfor database connection failures
+            conn.row_factory = sqlite3.Row
+            return conn
+    except:
+            print("Database connection failed")
 
 def init_db():
     conn = get_db_connection()
