@@ -1,6 +1,8 @@
 import os
 import json
 import sys
+import dotenv
+
 
 # Loads the stylesheet from the path
 def load_stylesheet(app_or_widget, override_color=None):
@@ -17,7 +19,6 @@ def load_stylesheet(app_or_widget, override_color=None):
     # IMPROVEMENT: Use a centralized Config Manager or constants file for paths.
     # Repeatedly calculating paths based on `__file__` is fragile.
     
-    # Stylesheet path (src/introstyling.qss)
     qss_path = os.path.join(root_dir, "src", "introstyling.qss")
     
     # Default accent color

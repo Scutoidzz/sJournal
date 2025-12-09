@@ -12,9 +12,24 @@ from datetime import datetime
 from PyQt6.QtCore import Qt
 from .mood import moodpicker
 #TODO: pack up the entry into json and then pass it to blackbox, then to the sqlite
-#TODO: Add apple health style slider for emotions
+#TODO: Add apple health style slider for emotions - Can be done with QSS
 from .functions.utils import load_stylesheet
 
+
+
+# Alignments
+down_right = QFlags(QAlignFlag.AlignBottom | QAlignFlag.AlignRight)
+down_left = QFlags(QAlignFlag.AlignButtom | QAlignFlag.AlignLeft)
+down_center = QFlags(QAlignFlag.AlignBottom | QAlignFlag.AlignCenter)
+up_right = QFlags(QAlignFlag.AlignTop | QAlignFlag.AlignRight)
+up_left = QFlags(QAlignFlag.AlignTop | QAlignFlag.AlignLeft)
+up_center = QFlags(QAlignFlag.AlignTop | QAlignFlag.AlignCenter)
+
+
+
+
+
+# Main Window
 class newEntryWindow(QWidget):
     def __init__(self): 
         super().__init__()

@@ -3,9 +3,11 @@ import os
 import sqlite3
 import json
 #TODO: Make this save directly to the database
+
 from pydantic import BaseModel, Field
 
 def get_gemini(prompt):
+    #TODO; 
     apikey = os.getenv("GEMINI_API_KEY")
     gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?api_key={apikey}"
 

@@ -3,11 +3,30 @@ import os
 from datetime import datetime
 from PyQt6.QtWidgets import  QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QFrame
 from PyQt6.QtCore import QThread, Qt
-from .newentry import new_entry
-from settings.settings import settings
-from .database import fetch_entries, init_db
-from .functions.utils import load_stylesheet
+from mainapp.newentry import new_entry
+from mainapp.settings.settings import settings
+from mainapp.database import fetch_entries, init_db
+from mainapp.functions.utils import load_stylesheet
+import mainapp.functions.algofunctions.algorithm as algo
 
+
+# Alignments
+bottomright = QtAlignmentFlags.AlignBottom | QtAlignmentFlags.AlignRight
+bottomleft = QtAlignmentFlags.AlignBottom | QtAlignmentFlags.AlignLeft
+bottomcenter = QtAlignmentFlags.AlignBottom | QtAlignmentFlags.AlignCenter
+leftalign = QtAlignmentFlags.AlignLeft
+rightalign = QtAlignmentFlags.AlignRight
+centeralign = QtAlignmentFlags.AlignCenter
+topright = QtAlignmentFlags.AlignTop | QtAlignmentFlags.AlignRight
+topleft = QtAlignmentFlags.AlignTop | QtAlignmentFlags.AlignLeft
+topcenter = QtAlignmentFlags.AlignTop | QtAlignmentFlags.AlignCenter
+
+"""
+TODO: Find out how to use my alignments
+"""
+
+
+#TODO: Learn QThread
 class DataThread(QThread):
     def run(self):
         self.entries = fetch_entries()
@@ -103,9 +122,8 @@ class Home(QThread):
             # Refresh entries when new entry window closes? 
             # For now, user has to restart or we need a signal.
             # Ideally, we would connect a signal from new_entry_window to refresh this list.
-            
         newentry_btn.clicked.connect(open_new_entry)
-
+        newentry_btn.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignBottom)
         btn_layout.addWidget(settings_btn)
         btn_layout.addStretch()
         btn_layout.addWidget(newentry_btn)
