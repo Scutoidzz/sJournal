@@ -2,6 +2,9 @@ from PyQt6.QtWidgets import QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayo
 import sys
 import os
 import json
+#TODO: Find out if regex has it's own library
+#TODO: lambda mood window to main class
+import regex
 from .database import init_db, add_entry
 from .functions import blackbox
 from .functions.save_func import save_compiled_entry
@@ -63,11 +66,10 @@ class newEntryWindow(QWidget):
                 QMessageBox.critical(self, "Error", "Could not save entry. Please try again.")
                 
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"Could not save entry: {e}")
-            print(f"Error saving entry: {e}")
+            QMessageBox.critical(self, "Error", f"Could not save entry - {e}")
+            print(f"Take the L XD - {e}")
 
 def new_entry():
     window = newEntryWindow()
     window.show()
     return window
-

@@ -13,5 +13,5 @@ def sort_entries_by_mood(entries):
 
     return sorted(entries, key=lambda x: x[3])
 
-def user_predictions(entries):\
+def user_predictions(entries):
     print("TODO")

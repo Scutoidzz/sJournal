@@ -4,14 +4,15 @@ import dotenv
 import sys
 import time
 import atexit
+
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtGui import QPalette
 from PyQt6.QtCore import QObject, pyqtSignal
-
 osname = os.name
 # TODO: Change the QSS theming. This current theme looks vibe coded
 dotenv.load_dotenv()
-if osname == "darwin" or osname == "linux":
+#TODO: Findout is os.name has a "linux" identity.
+if osname == "darwin" or osname == "posix" or osname == "linux":
     if os.path.basename(os.getcwd()) == "sJournal":
         print("Please run this app from the sJournal directory.")
         sys.exit(1)
