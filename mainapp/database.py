@@ -5,6 +5,9 @@ import json
 import hashlib
 #TODO: COMPLETE REWRITE
 import sys
+import dotenv
+import time
+#TODO: Replace datecodes with dates from time library
 DB_NAME = "sjournal.db"
 # IMPROVEMENT: Use a configuration file or environment variable for the database path.
 # Hardcoding relative paths can lead to issues if the script is run from a different directory.
@@ -18,8 +21,8 @@ def get_db_connection():
             # CRITICAL: No error handlingfor database connection failures
             conn.row_factory = sqlite3.Row
             return conn
-    except:
-            print("Database connection failed")
+    except sqlite3.Error as errmsg:
+            print(f"Database connection failed: {errmsg}")
 
 def init_db():
     conn = get_db_connection()

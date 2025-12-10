@@ -1,9 +1,11 @@
-QSlider {
-    #TODO: Make this use the accent color
+QSlider:horizontal {
     background-color: #0000ff;
     border: 8px solid #0000ff;
-    
-    
+}
 
-
+QSlider:handle:horizonal {
+    border: 1px solid #89ac90ff;
+    border-radius: 100px;
+    width: 7px;
+    height: 7px;
 }

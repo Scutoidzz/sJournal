@@ -2,6 +2,8 @@ import requests
 import os
 import sqlite3
 import json
+import easydb
+#TODO: Replace sqlite with easydb
 #TODO: Make this save directly to the database
 
 from pydantic import BaseModel, Field

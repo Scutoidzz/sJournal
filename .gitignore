@@ -36,3 +36,11 @@ refresher.py
 #
 .DS_Store
 /config.json
+
+#
+# Assets
+# 
+assets
+
+
+

@@ -2,6 +2,7 @@ from PyQt6.QtWidgets import QSpacerItem, QWidget, QVBoxLayout, QHBoxLayout, QPus
 from PyQt6.QtGui import QImage, QFont
 import os
 import sys
+from .easteregg import easteregg
 
 osname = os.name
 
@@ -19,9 +20,10 @@ def abt_window():
     mediumfont = QFont("Arial", 12)
     largefont = QFont("Arial", 16)
     # COMPONENTS
-    aboutname = QLabel("About")
+    aboutname = QLabel("About") 
     aboutblurb = QLabel("sJournal")
     aboutversion = QLabel("0.16")
+    smth = QPushButton("A lil sum sum")
     # CONFIGURE COMPONETS
     aboutname.setFont(largefont)
     aboutblurb.setFont(mediumfont)
@@ -32,3 +34,5 @@ def abt_window():
     layout.addWidget(spacer)
     layout.addWidget(aboutblurb)
     layout.addWidget(aboutversion)
+    layout.addWidget(spacer)
+    layout.addWidget(smth)
